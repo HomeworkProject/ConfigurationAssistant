@@ -4,12 +4,12 @@
     <PathDelim Value="\"/>
     <Version Value="10"/>
     <BuildModes Active="Default"/>
-    <Units Count="8">
+    <Units Count="9">
       <Unit0>
         <Filename Value="project_hwConfig.lpr"/>
         <IsPartOfProject Value="True"/>
         <CursorPos X="15" Y="10"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="23"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -19,10 +19,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uMain"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="4"/>
-        <CursorPos X="36" Y="11"/>
-        <UsageCount Value="22"/>
+        <TopLine Value="98"/>
+        <CursorPos X="34" Y="109"/>
+        <UsageCount Value="23"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -30,175 +31,181 @@
         <Filename Value="uconfsearch.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfSearch"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="28"/>
-        <CursorPos X="62" Y="42"/>
-        <UsageCount Value="22"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="37"/>
+        <CursorPos X="44" Y="40"/>
+        <UsageCount Value="23"/>
         <Loaded Value="True"/>
       </Unit2>
       <Unit3>
-        <Filename Value="C:\codetyphon\fpcsrc\rtl\objpas\classes\stringl.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="1643"/>
-        <CursorPos Y="1657"/>
-        <UsageCount Value="10"/>
-      </Unit3>
-      <Unit4>
         <Filename Value="uconfloader.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfLoader"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="17"/>
-        <UsageCount Value="22"/>
-      </Unit4>
-      <Unit5>
+        <UsageCount Value="23"/>
+      </Unit3>
+      <Unit4>
         <Filename Value="umain_loadconf.inc"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uConfLoader"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="23"/>
-        <CursorPos X="43" Y="38"/>
-        <UsageCount Value="22"/>
+        <TopLine Value="41"/>
+        <CursorPos X="19" Y="116"/>
+        <UsageCount Value="23"/>
         <Loaded Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="C:\codetyphon\fpcsrc\rtl\objpas\classes\stringl.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1643"/>
+        <CursorPos Y="1657"/>
+        <UsageCount Value="10"/>
       </Unit5>
       <Unit6>
         <Filename Value="C:\codetyphon\fpcsrc\packages\fcl-json\src\jsonparser.pp"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <TopLine Value="34"/>
         <CursorPos X="17" Y="48"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit6>
       <Unit7>
         <Filename Value="C:\codetyphon\fpcsrc\packages\fcl-json\src\jsonscanner.pp"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="41"/>
         <CursorPos X="3" Y="54"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit7>
+      <Unit8>
+        <Filename Value="C:\codetyphon\fpcsrc\packages\fcl-json\src\fpjson.pp"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="1176"/>
+        <CursorPos X="3" Y="1182"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit8>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="umain.pas"/>
-        <Caret Line="84" Column="98" TopLine="61"/>
+        <Caret Line="100" Column="26" TopLine="96"/>
       </Position1>
       <Position2>
         <Filename Value="umain.pas"/>
-        <Caret Line="91" Column="98" TopLine="64"/>
+        <Caret Line="101" Column="26" TopLine="97"/>
       </Position2>
       <Position3>
         <Filename Value="umain.pas"/>
-        <Caret Line="59" Column="59" TopLine="39"/>
+        <Caret Line="102" Column="26" TopLine="98"/>
       </Position3>
       <Position4>
         <Filename Value="umain.pas"/>
-        <Caret Line="60" Column="59" TopLine="40"/>
+        <Caret Line="103" Column="26" TopLine="99"/>
       </Position4>
       <Position5>
         <Filename Value="umain.pas"/>
-        <Caret Line="61" Column="59" TopLine="41"/>
+        <Caret Line="102" Column="26" TopLine="98"/>
       </Position5>
       <Position6>
         <Filename Value="umain.pas"/>
-        <Caret Line="62" Column="59" TopLine="42"/>
+        <Caret Line="101" Column="26" TopLine="97"/>
       </Position6>
       <Position7>
         <Filename Value="umain.pas"/>
-        <Caret Line="61" Column="59" TopLine="41"/>
+        <Caret Line="100" Column="26" TopLine="96"/>
       </Position7>
       <Position8>
         <Filename Value="umain.pas"/>
-        <Caret Line="108" Column="82" TopLine="94"/>
+        <Caret Line="99" Column="26" TopLine="95"/>
       </Position8>
       <Position9>
-        <Filename Value="umain_loadconf.inc"/>
-        <Caret Line="9"/>
+        <Filename Value="umain.pas"/>
+        <Caret Line="98" Column="26" TopLine="94"/>
       </Position9>
       <Position10>
         <Filename Value="umain.pas"/>
-        <Caret Line="129" Column="32" TopLine="104"/>
+        <Caret Line="97" Column="26" TopLine="93"/>
       </Position10>
       <Position11>
-        <Filename Value="umain_loadconf.inc"/>
-        <Caret Line="2" Column="6"/>
+        <Filename Value="umain.pas"/>
+        <Caret Line="98" Column="26" TopLine="94"/>
       </Position11>
       <Position12>
-        <Filename Value="umain_loadconf.inc"/>
-        <Caret Line="6" Column="28"/>
+        <Filename Value="umain.pas"/>
+        <Caret Line="99" Column="26" TopLine="95"/>
       </Position12>
       <Position13>
-        <Filename Value="umain_loadconf.inc"/>
-        <Caret Line="3" Column="36"/>
+        <Filename Value="umain.pas"/>
+        <Caret Line="98" Column="26" TopLine="94"/>
       </Position13>
       <Position14>
         <Filename Value="umain.pas"/>
-        <Caret Line="115" Column="15" TopLine="104"/>
+        <Caret Line="97" Column="26" TopLine="93"/>
       </Position14>
       <Position15>
-        <Filename Value="umain_loadconf.inc"/>
-        <Caret Line="12" Column="7"/>
+        <Filename Value="umain.pas"/>
+        <Caret Line="98" Column="26" TopLine="94"/>
       </Position15>
       <Position16>
-        <Filename Value="umain_loadconf.inc"/>
-        <Caret Line="13" Column="14"/>
+        <Filename Value="umain.pas"/>
+        <Caret Line="97" Column="26" TopLine="93"/>
       </Position16>
       <Position17>
-        <Filename Value="umain_loadconf.inc"/>
-        <Caret Line="7" Column="18"/>
+        <Filename Value="umain.pas"/>
+        <Caret Line="98" Column="26" TopLine="94"/>
       </Position17>
       <Position18>
-        <Filename Value="umain_loadconf.inc"/>
-        <Caret Line="8" Column="20"/>
+        <Filename Value="umain.pas"/>
+        <Caret Line="99" Column="26" TopLine="95"/>
       </Position18>
       <Position19>
-        <Filename Value="umain_loadconf.inc"/>
-        <Caret Line="11" Column="23"/>
+        <Filename Value="umain.pas"/>
+        <Caret Line="100" Column="26" TopLine="96"/>
       </Position19>
       <Position20>
-        <Filename Value="umain_loadconf.inc"/>
-        <Caret Line="13" Column="14"/>
+        <Filename Value="umain.pas"/>
+        <Caret Line="101" Column="26" TopLine="97"/>
       </Position20>
       <Position21>
-        <Filename Value="umain_loadconf.inc"/>
-        <Caret Line="12" Column="7"/>
+        <Filename Value="umain.pas"/>
+        <Caret Line="102" Column="26" TopLine="98"/>
       </Position21>
       <Position22>
-        <Filename Value="umain_loadconf.inc"/>
-        <Caret Line="32" Column="19" TopLine="8"/>
+        <Filename Value="umain.pas"/>
+        <Caret Line="103" Column="26" TopLine="99"/>
       </Position22>
       <Position23>
         <Filename Value="umain_loadconf.inc"/>
-        <Caret Line="13" Column="16" TopLine="4"/>
+        <Caret Line="58" Column="46" TopLine="35"/>
       </Position23>
       <Position24>
         <Filename Value="umain_loadconf.inc"/>
-        <Caret Line="11" Column="23"/>
+        <Caret Line="60" Column="38" TopLine="40"/>
       </Position24>
       <Position25>
-        <Filename Value="umain_loadconf.inc"/>
-        <Caret Line="31" Column="40" TopLine="17"/>
+        <Filename Value="C:\codetyphon\fpcsrc\packages\fcl-json\src\fpjson.pp"/>
+        <Caret Line="121" Column="14" TopLine="108"/>
       </Position25>
       <Position26>
         <Filename Value="umain_loadconf.inc"/>
-        <Caret Line="29" Column="28" TopLine="15"/>
+        <Caret Line="60" Column="42" TopLine="40"/>
       </Position26>
       <Position27>
-        <Filename Value="umain.pas"/>
-        <Caret Line="39" Column="24" TopLine="61"/>
+        <Filename Value="C:\codetyphon\fpcsrc\packages\fcl-json\src\fpjson.pp"/>
+        <Caret Line="1182" Column="3" TopLine="1176"/>
       </Position27>
       <Position28>
         <Filename Value="umain_loadconf.inc"/>
-        <Caret Line="29" Column="35" TopLine="15"/>
+        <Caret Line="60" Column="42" TopLine="40"/>
       </Position28>
       <Position29>
-        <Filename Value="C:\codetyphon\fpcsrc\packages\fcl-json\src\jsonparser.pp"/>
-        <Caret Line="48" Column="17" TopLine="34"/>
+        <Filename Value="umain_loadconf.inc"/>
+        <Caret Line="78" Column="36" TopLine="47"/>
       </Position29>
       <Position30>
-        <Filename Value="umain_loadconf.inc"/>
-        <Caret Line="29" Column="57" TopLine="6"/>
+        <Filename Value="umain.pas"/>
+        <Caret Line="51" Column="38" TopLine="26"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>

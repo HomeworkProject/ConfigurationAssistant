@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ComCtrls,
-  StdCtrls
+  StdCtrls, ExtCtrls
   , uConfSearch
   , fpjson, jsonparser, jsonscanner
   ;
@@ -19,17 +19,26 @@ type
     Button_exit: TButton;
     Button_openConfig: TButton;
     Button_browseConfigPath: TButton;
+    CheckBox_ftTcp: TCheckBox;
+    CheckBox_plainTcp: TCheckBox;
+    CheckBox_secTcp: TCheckBox;
     ComboBox_configPath: TComboBox;
     Edit_configPath: TEdit;
     GroupBox_appInfo: TGroupBox;
     iLabel_select: TLabel;
+    Label_portPlain: TLabel;
+    Label_portSec: TLabel;
+    Label_portFT: TLabel;
     PageControl_main: TPageControl;
+    Panel_tcp: TPanel;
     ProgressBar_searchConfigs: TProgressBar;
     RadioButton_createNew: TRadioButton;
     RadioButton_open: TRadioButton;
     RadioButton_detect: TRadioButton;
     StaticText_genericInfo: TStaticText;
+    TabSheet_config_generic: TTabSheet;
     TabSheet_selectFile: TTabSheet;
+    procedure FormCreate(Sender: TObject);
     procedure RadioButton_openChange(Sender: TObject);
     procedure RadioButton_detectChange(Sender: TObject);
     procedure Button_openConfigClick(Sender: TObject);
@@ -39,6 +48,7 @@ type
     FJSON: TJSONObject;
     procedure OnConfSearchDone(confSearch: TConfSearch);
     procedure loadConf(path: String);
+    function reloadFromJSON: Boolean;
   public
   end;
 
@@ -86,6 +96,17 @@ begin
       Edit_configPath.Enabled := False;
       Button_browseConfigPath.Enabled := False;
   end;
+end;
+
+procedure TfmMain.FormCreate(Sender: TObject);
+begin
+  Height := 400;
+  Width := 600;
+  BorderStyle := bsSingle;
+
+  PageControl_main.ActivePage := TabSheet_selectFile;
+  RadioButton_openChange(Self);
+  RadioButton_detectChange(Self);
 end;
 
 procedure TfmMain.RadioButton_detectChange(Sender: TObject);

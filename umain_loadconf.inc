@@ -46,6 +46,81 @@ begin
     end;
   end;
   FJSON := jObj;
+
+  if (reloadFromJSON) then begin
+    PageControl_main.ActivePage := TabSheet_config_generic;
+    TabSheet_config_generic.Enabled := True;
+  end else begin
+      PageControl_main.ActivePage := TabSheet_selectFile;
+      TabSheet_config_generic.Enabled := False;
+  end;
+end;
+
+function TfmMain.reloadFromJSON: Boolean;
+var
+  jData: TJSONData;
+  jObj: TJSONObject;
+  b: Boolean;
+  i: Integer;
+begin
+  try
+    //Plain TCP
+    b:= False;
+    jData := FJSON.GetPath('tcp.plain');
+    if (Assigned(jData)) then begin
+      if (jData.JSONType = jtObject) then begin
+        jObj := TJSONObject(jData);
+        if (jObj.Get('enable', False)) then
+           b := True;
+        i := jObj.Get('port', 0);
+      end;
+    end;
+    CheckBox_plainTcp.Checked := b;
+    if (i<>0) then
+       Label_portPlain.Caption := IntToStr(i)
+    else
+      Label_portPlain.Caption := '-';
+
+        //Plain TCP
+    b:= False;
+    jData := FJSON.GetPath('tcp.ssl');
+    if (Assigned(jData)) then begin
+      if (jData.JSONType = jtObject) then begin
+        jObj := TJSONObject(jData);
+        if (jObj.Get('enable', False)) then
+           b := True;
+        i := jObj.Get('port', 0);
+      end;
+    end;
+    CheckBox_secTcp.Checked := b;
+    if (i<>0) then
+       Label_portSec.Caption := IntToStr(i)
+    else
+      Label_portSec.Caption := '-';
+
+    //FT TCP
+    b:= False;
+    jData := FJSON.GetPath('tcp.ft');
+    if (Assigned(jData)) then begin
+      if (jData.JSONType = jtObject) then begin
+        jObj := TJSONObject(jData);
+        if (jObj.Get('enable', False)) then
+           b := True;
+        i := jObj.Get('port', 0);
+      end;
+    end;
+    CheckBox_ftTcp.Checked := b;
+    if (i<>0) then
+       Label_portFT.Caption := IntToStr(i)
+    else
+      Label_portFT.Caption := '-';
+
+  except
+  on e: Exception do begin
+     ShowMessage('Cannot read config: ' + e.Message);
+     Result := False;
+  end;
+end;
 end;
 
 end.
