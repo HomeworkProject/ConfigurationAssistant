@@ -1,0 +1,9 @@
+## Pascal ##
+lib/
+
+## test files ##
+*.conf
+*.json
+
+## Binary files ##
+*.exe

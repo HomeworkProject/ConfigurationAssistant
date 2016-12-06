@@ -1,0 +1,131 @@
+object fmMain: TfmMain
+  Left = 366
+  Height = 400
+  Top = 162
+  Width = 600
+  Caption = 'fmMain'
+  ClientHeight = 400
+  ClientWidth = 600
+  LCLVersion = '5.9'
+  object PageControl_main: TPageControl
+    Left = 0
+    Height = 400
+    Top = 0
+    Width = 600
+    ActivePage = TabSheet_selectFile
+    TabIndex = 0
+    TabOrder = 0
+    Options = [nboHidePageListPopup]
+    object TabSheet_selectFile: TTabSheet
+      Caption = 'TabSheet_selectFile'
+      ClientHeight = 372
+      ClientWidth = 592
+      object ComboBox_configPath: TComboBox
+        Left = 8
+        Height = 23
+        Top = 176
+        Width = 240
+        ItemHeight = 15
+        TabOrder = 0
+        Text = 'ComboBox_configPath'
+      end
+      object iLabel_select: TLabel
+        Left = 8
+        Height = 15
+        Top = 152
+        Width = 155
+        Caption = 'Select your configuration file:'
+        ParentColor = False
+      end
+      object RadioButton_open: TRadioButton
+        Left = 8
+        Height = 19
+        Top = 8
+        Width = 127
+        Caption = 'Open configuration:'
+        Checked = True
+        OnChange = RadioButton_openChange
+        TabOrder = 5
+        TabStop = True
+      end
+      object Edit_configPath: TEdit
+        Left = 8
+        Height = 23
+        Top = 30
+        Width = 200
+        TabOrder = 1
+        Text = 'Edit_configPath'
+      end
+      object RadioButton_detect: TRadioButton
+        Left = 8
+        Height = 19
+        Top = 128
+        Width = 104
+        Caption = 'Select from List:'
+        OnChange = RadioButton_detectChange
+        TabOrder = 2
+      end
+      object Button_browseConfigPath: TButton
+        Left = 208
+        Height = 23
+        Top = 30
+        Width = 40
+        Caption = '...'
+        TabOrder = 3
+      end
+      object Button_openConfig: TButton
+        Left = 512
+        Height = 25
+        Top = 344
+        Width = 75
+        Caption = 'Open'
+        OnClick = Button_openConfigClick
+        TabOrder = 4
+      end
+      object ProgressBar_searchConfigs: TProgressBar
+        Left = 8
+        Height = 23
+        Top = 176
+        Width = 240
+        Style = pbstMarquee
+        TabOrder = 6
+        Visible = False
+      end
+      object RadioButton_createNew: TRadioButton
+        Left = 8
+        Height = 19
+        Top = 272
+        Width = 116
+        Caption = 'Create new config'
+        TabOrder = 7
+      end
+      object GroupBox_appInfo: TGroupBox
+        Left = 336
+        Height = 329
+        Top = 8
+        Width = 249
+        Caption = 'Generic information'
+        ClientHeight = 309
+        ClientWidth = 245
+        TabOrder = 8
+        object StaticText_genericInfo: TStaticText
+          Left = 8
+          Height = 304
+          Top = 0
+          Width = 225
+          Caption = 'Homework_Server configuration '#13#10'assistant.'#13#10#13#10'Update 1 - Alpha0'#13#10'Target server version: 0.0.0.9'#13#10#13#10'(C) Magnus Leßmann'#13#10#13#10'Issues: '#13#10'github.com/MarkL4YG/'#13#10'Homework_Server_configAssist/issues'
+          TabOrder = 0
+        end
+      end
+    end
+  end
+  object Button_exit: TButton
+    Left = 12
+    Height = 25
+    Top = 368
+    Width = 75
+    Caption = 'Exit'
+    OnClick = Button_exitClick
+    TabOrder = 1
+  end
+end
