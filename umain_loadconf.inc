@@ -49,19 +49,23 @@ begin
 
   if (reloadFromJSON) then begin
     PageControl_main.ActivePage := TabSheet_config_generic;
+    PageControl_mainChange(Self);
     TabSheet_config_generic.Enabled := True;
+    FConfigPath := path;
   end else begin
       PageControl_main.ActivePage := TabSheet_selectFile;
+      PageControl_mainChange(Self);
       TabSheet_config_generic.Enabled := False;
   end;
 end;
 
 function TfmMain.reloadFromJSON: Boolean;
 var
-  jData: TJSONData;
-  jObj: TJSONObject;
-  b: Boolean;
-  i: Integer;
+  jData, jData2: TJSONData;
+  jObj, jObj2: TJSONObject;
+  b, b2: Boolean;
+  i, i2, i3, i4: Integer;
+  s, s2: String;
 begin
   try
     //Plain TCP
@@ -81,7 +85,7 @@ begin
     else
       Label_portPlain.Caption := '-';
 
-        //Plain TCP
+    //Plain TCP
     b:= False;
     jData := FJSON.GetPath('tcp.ssl');
     if (Assigned(jData)) then begin
@@ -99,8 +103,8 @@ begin
       Label_portSec.Caption := '-';
 
     //FT TCP
-    b:= False;
-    jData := FJSON.GetPath('tcp.ft');
+    b := False;
+    jData := FJSON.FindPath('tcp.ft');
     if (Assigned(jData)) then begin
       if (jData.JSONType = jtObject) then begin
         jObj := TJSONObject(jData);
@@ -115,6 +119,76 @@ begin
     else
       Label_portFT.Caption := '-';
 
+    //HW-DB-Cleanup
+    b := False;
+    jData := FJSON.FindPath('cleanup.hw_database');
+    if (Assigned(jData)) then begin
+      if (jData.JSONType = jtObject) then begin
+        jObj := TJSONObject(jData);
+        if (jObj.Get('enable', False)) then
+           b := True;
+        i := jObj.Get('maxAgeDays', 0);
+      end;
+    end;
+    CheckBox_cleanuphwDB.Checked := b;
+    if (i<>0) then
+       Label_maxhwDBAge.Caption := '>' + IntToStr(i) + 'd'
+    else
+      Label_maxhwDBAge.Caption := '-';
+
+    //Automatic updates
+    b := False;
+    b2 := True;
+    jData := FJSON.FindPath('update');
+    if (Assigned(jData)) then begin
+      if (jData.JSONType = jtObject) then begin
+        jObj := TJSONObject(jData);
+        if (jObj.Get('enable', False)) then
+           b := True;
+        if (not jObj.Get('upgrade', True)) then
+           b2 := False;
+        i := jObj.Get('interval', 0);
+        s := jObj.Get('intervalTimeUnit', 'SECONDS');
+      end;
+    end;
+    CheckBox_autoCheckUpdate.Checked := b;
+    CheckBox_autoApplyUpdate.Checked := b2;
+    if (i<>0) then begin
+       Label_updateInterval.Caption := IntToStr(i);
+       Label_updateIntervalTU.Caption := s;
+    end else begin
+      Label_updateInterval.Caption := '-';
+      Label_updateIntervalTU.Caption := '-';
+    end;
+
+    //Groups+Users
+    ListBox_groupsnusers.Clear;
+    i3 := 0;
+    i4 := 0;
+    jData := FJSON.FindPath('groups');
+    if (jData.JSONType = jtObject) then begin
+      jObj := TJSONObject(jData);
+      for i:=0 to (jObj.Count-1) do begin
+          s := jObj.Names[i];
+          jData2 := jObj.FindPath(s + '.users');
+          if (Assigned(jData2)) then
+          if (jData2.JSONType = jtObject) then begin
+            if (jData2.JSONType = jtObject) then begin
+              ListBox_groupsnusers.Items.Add(s);
+              ListBox_groups.Items.Add(s);
+              Inc(i3);
+              jObj2 := TJSONObject(jData2);
+              for i2:=0 to (jObj2.Count-1) do begin
+                  ListBox_groupsnusers.Items.Add('  ->' + jObj2.Names[i2]);
+                  Inc(i4);
+              end;
+            end;
+          end;
+      end;
+    end;
+    Label_groupCount.Caption := IntToStr(i3) + ' group(s)';
+    Label_userCount.Caption := IntToStr(i4) + ' user(s)';
+
   except
   on e: Exception do begin
      ShowMessage('Cannot read config: ' + e.Message);
@@ -123,4 +197,3 @@ begin
 end;
 end;
 
-end.

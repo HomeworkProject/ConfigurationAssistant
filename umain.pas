@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ComCtrls,
-  StdCtrls, ExtCtrls
+  StdCtrls, ExtCtrls, Grids
   , uConfSearch
   , fpjson, jsonparser, jsonscanner
   ;
@@ -16,29 +16,54 @@ type
   { TfmMain }
 
   TfmMain = class(TForm)
+    Button_saveConfig: TButton;
+    Button_back: TButton;
     Button_exit: TButton;
     Button_openConfig: TButton;
     Button_browseConfigPath: TButton;
+    CheckBox_autoApplyUpdate: TCheckBox;
+    CheckBox_cleanuphwDB: TCheckBox;
+    CheckBox_autoCheckUpdate: TCheckBox;
     CheckBox_ftTcp: TCheckBox;
     CheckBox_plainTcp: TCheckBox;
     CheckBox_secTcp: TCheckBox;
     ComboBox_configPath: TComboBox;
     Edit_configPath: TEdit;
+    GroupBox_groups: TGroupBox;
+    GroupBox_cleanup: TGroupBox;
     GroupBox_appInfo: TGroupBox;
+    GroupBox_update: TGroupBox;
     iLabel_select: TLabel;
+    Label_iUsers: TLabel;
+    Label_iGroups: TLabel;
+    Label_groupCount: TLabel;
+    Label_iUsersInGroups: TLabel;
+    Label_userCount: TLabel;
+    Label_updateInterval: TLabel;
+    Label_portFT: TLabel;
+    Label_maxhwDBAge: TLabel;
     Label_portPlain: TLabel;
     Label_portSec: TLabel;
-    Label_portFT: TLabel;
+    Label_updateIntervalTU: TLabel;
+    ListBox_users: TListBox;
+    ListBox_groups: TListBox;
+    ListBox_groupsnusers: TListBox;
     PageControl_main: TPageControl;
-    Panel_tcp: TPanel;
+    Panel_tcp: TGroupBox;
     ProgressBar_searchConfigs: TProgressBar;
     RadioButton_createNew: TRadioButton;
     RadioButton_open: TRadioButton;
     RadioButton_detect: TRadioButton;
     StaticText_genericInfo: TStaticText;
+    TabSheet_editGroup: TTabSheet;
     TabSheet_config_generic: TTabSheet;
     TabSheet_selectFile: TTabSheet;
+    procedure Button_backClick(Sender: TObject);
+    procedure Button_saveConfigClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure GroupBox_groupsDblClick(Sender: TObject);
+    procedure ListBox_groupsSelectionChange(Sender: TObject; User: boolean);
+    procedure PageControl_mainChange(Sender: TObject);
     procedure RadioButton_openChange(Sender: TObject);
     procedure RadioButton_detectChange(Sender: TObject);
     procedure Button_openConfigClick(Sender: TObject);
@@ -68,7 +93,7 @@ var
 begin
   //ShowMessage('Test');
   for I:=0 to (confSearch.getResults.Count - 1) do begin
-      s := StringReplace(confSearch.getResults.Strings[I], GetCurrentDir, '.', [rfReplaceAll{IFNDEF UNIX}, rfIgnoreCase{ENDIF}]);
+      s := StringReplace(confSearch.getResults.Strings[I], GetCurrentDir, '.', [rfReplaceAll{$IFNDEF UNIX}, rfIgnoreCase{$ENDIF}]);
     ComboBox_configPath.Items.Add(s);
   end;
   ProgressBar_searchConfigs.Visible := False;
@@ -107,6 +132,30 @@ begin
   PageControl_main.ActivePage := TabSheet_selectFile;
   RadioButton_openChange(Self);
   RadioButton_detectChange(Self);
+end;
+
+procedure TfmMain.Button_backClick(Sender: TObject);
+begin
+  PageControl_main.ActivePage := TabSheet_config_generic;
+  PageControl_mainChange(Button_back);
+end;
+
+procedure TfmMain.Button_saveConfigClick(Sender: TObject);
+var
+  f: TextFile;
+begin
+  AssignFile(f, FConfigPath);
+  Rewrite(f);
+  Write(f, FJSON.FormatJSON());
+  Flush(f);
+  CloseFile(f);
+end;
+
+procedure TfmMain.GroupBox_groupsDblClick(Sender: TObject);
+begin
+  PageControl_main.ActivePage := TabSheet_editGroup;
+  PageControl_mainChange(GroupBox_groups);
+  ListBox_groupsSelectionChange(Self, False);
 end;
 
 procedure TfmMain.RadioButton_detectChange(Sender: TObject);
@@ -151,6 +200,7 @@ begin
 end;
 
 {$INCLUDE 'umain_loadconf.inc'}
+{$INCLUDE 'umain_groupedit.inc'}
 
 end.
 
