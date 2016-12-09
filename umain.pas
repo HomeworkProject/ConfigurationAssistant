@@ -16,6 +16,10 @@ type
   { TfmMain }
 
   TfmMain = class(TForm)
+    Button_delUser: TButton;
+    Button_crUser: TButton;
+    Button_crGroup: TButton;
+    Button_delGroup: TButton;
     Button_saveConfig: TButton;
     Button_back: TButton;
     Button_exit: TButton;
@@ -28,7 +32,9 @@ type
     CheckBox_plainTcp: TCheckBox;
     CheckBox_secTcp: TCheckBox;
     ComboBox_configPath: TComboBox;
+    Edit_GUname: TEdit;
     Edit_configPath: TEdit;
+    GroupBox_infoBalloon: TGroupBox;
     GroupBox_groups: TGroupBox;
     GroupBox_cleanup: TGroupBox;
     GroupBox_appInfo: TGroupBox;
@@ -48,6 +54,7 @@ type
     ListBox_users: TListBox;
     ListBox_groups: TListBox;
     ListBox_groupsnusers: TListBox;
+    Memo_info: TMemo;
     PageControl_main: TPageControl;
     Panel_tcp: TGroupBox;
     ProgressBar_searchConfigs: TProgressBar;
@@ -58,19 +65,30 @@ type
     TabSheet_editGroup: TTabSheet;
     TabSheet_config_generic: TTabSheet;
     TabSheet_selectFile: TTabSheet;
+    Timer_info: TTimer;
     procedure Button_backClick(Sender: TObject);
+    procedure Button_crGroupClick(Sender: TObject);
+    procedure Button_crUserClick(Sender: TObject);
+    procedure Button_delGroupClick(Sender: TObject);
+    procedure Button_delUserClick(Sender: TObject);
     procedure Button_saveConfigClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure GroupBox_groupsDblClick(Sender: TObject);
+    procedure GroupBox_infoBalloonClick(Sender: TObject);
     procedure ListBox_groupsSelectionChange(Sender: TObject; User: boolean);
+    procedure ListBox_usersSelectionChange(Sender: TObject; User: boolean);
     procedure PageControl_mainChange(Sender: TObject);
     procedure RadioButton_openChange(Sender: TObject);
     procedure RadioButton_detectChange(Sender: TObject);
     procedure Button_openConfigClick(Sender: TObject);
     procedure Button_exitClick(Sender: TObject);
+    procedure Timer_infoTimer(Sender: TObject);
   private
     FConfigPath: String;
     FJSON: TJSONObject;
+    FInfoList: TStringList;
+    procedure AddInfo(s: String);
+    function NextInfo: Boolean;
     procedure OnConfSearchDone(confSearch: TConfSearch);
     procedure loadConf(path: String);
     function reloadFromJSON: Boolean;
@@ -128,6 +146,9 @@ begin
   Height := 400;
   Width := 600;
   BorderStyle := bsSingle;
+
+  FInfoList := TStringList.Create;
+  GroupBox_infoBalloon.Left := Width - GroupBox_infoBalloon.Width;
 
   PageControl_main.ActivePage := TabSheet_selectFile;
   RadioButton_openChange(Self);
@@ -201,6 +222,7 @@ end;
 
 {$INCLUDE 'umain_loadconf.inc'}
 {$INCLUDE 'umain_groupedit.inc'}
+{$INCLUDE 'umain_tools.inc'}
 
 end.
 

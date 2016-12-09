@@ -61,23 +61,33 @@ end;
 
 function TfmMain.reloadFromJSON: Boolean;
 var
-  jData, jData2: TJSONData;
+  lTCP, jData, jData2: TJSONData;
   jObj, jObj2: TJSONObject;
   b, b2: Boolean;
   i, i2, i3, i4: Integer;
   s, s2: String;
 begin
   try
+
+    //Prepare TCP
+    jData := FJSON.FindPath('tcp');
+    if ((not Assigned(jData)) or (not (jData.JSONType = jtObject))) then begin
+      lTCP := TJSONObject.Create;
+      FJSON.Add('tcp', lTCP);
+    end else begin
+        lTCP := TJSONObject(jData);
+    end;
+
     //Plain TCP
     b:= False;
-    jData := FJSON.GetPath('tcp.plain');
-    if (Assigned(jData)) then begin
-      if (jData.JSONType = jtObject) then begin
-        jObj := TJSONObject(jData);
-        if (jObj.Get('enable', False)) then
-           b := True;
-        i := jObj.Get('port', 0);
-      end;
+    jData := lTCP.FindPath('plain');
+    if (not Assigned(jData) or (not (jData.JSONType = jtObject))) then begin
+      jData := TJSONObject.Create;
+    end;
+    jObj := TJSONObject(jData);
+    if (jObj.Get('enable', False)) then begin
+       b := True;
+       i := jObj.Get('port', 0);
     end;
     CheckBox_plainTcp.Checked := b;
     if (i<>0) then
@@ -87,14 +97,14 @@ begin
 
     //Plain TCP
     b:= False;
-    jData := FJSON.GetPath('tcp.ssl');
-    if (Assigned(jData)) then begin
-      if (jData.JSONType = jtObject) then begin
-        jObj := TJSONObject(jData);
-        if (jObj.Get('enable', False)) then
-           b := True;
-        i := jObj.Get('port', 0);
-      end;
+    jData := lTCP.FindPath('ssl');
+    if (not Assigned(jData) or (not (jData.JSONType = jtObject))) then begin
+      jData := TJSONObject.Create;
+    end;
+    jObj := TJSONObject(jData);
+    if (jObj.Get('enable', False)) then begin
+       b := True;
+       i := jObj.Get('port', 0);
     end;
     CheckBox_secTcp.Checked := b;
     if (i<>0) then
@@ -103,15 +113,15 @@ begin
       Label_portSec.Caption := '-';
 
     //FT TCP
-    b := False;
-    jData := FJSON.FindPath('tcp.ft');
-    if (Assigned(jData)) then begin
-      if (jData.JSONType = jtObject) then begin
-        jObj := TJSONObject(jData);
-        if (jObj.Get('enable', False)) then
-           b := True;
-        i := jObj.Get('port', 0);
-      end;
+    b:= False;
+    jData := lTCP.FindPath('ft');
+    if (not Assigned(jData) or (not (jData.JSONType = jtObject))) then begin
+      jData := TJSONObject.Create;
+    end;
+    jObj := TJSONObject(jData);
+    if (jObj.Get('enable', False)) then begin
+       b := True;
+       i := jObj.Get('port', 0);
     end;
     CheckBox_ftTcp.Checked := b;
     if (i<>0) then
@@ -121,14 +131,21 @@ begin
 
     //HW-DB-Cleanup
     b := False;
-    jData := FJSON.FindPath('cleanup.hw_database');
-    if (Assigned(jData)) then begin
-      if (jData.JSONType = jtObject) then begin
-        jObj := TJSONObject(jData);
-        if (jObj.Get('enable', False)) then
-           b := True;
-        i := jObj.Get('maxAgeDays', 0);
-      end;
+    i := 0;
+    jData := FJSON.FindPath('cleanup');
+    if ((not Assigned(jData)) or (not (jData.JSONType = jtObject))) then begin
+       jData := TJSONObject.Create;
+       FJSON.Add('cleanup', jData);
+    end;
+    jData := TJSONObject(jData).FindPath('hw_database');
+    if ((not Assigned(jData)) or (not (jData.JSONType = jtObject))) then begin
+       jData := TJSONObject.Create;
+
+    end;
+    jObj := TJSONObject(jData);
+    if (jObj.Get('enable', False)) then begin
+       b := True;
+       i := jObj.Get('maxAgeDays', 0);
     end;
     CheckBox_cleanuphwDB.Checked := b;
     if (i<>0) then
@@ -163,28 +180,31 @@ begin
 
     //Groups+Users
     ListBox_groupsnusers.Clear;
+    ListBox_groups.Clear;
     i3 := 0;
     i4 := 0;
     jData := FJSON.FindPath('groups');
-    if (jData.JSONType = jtObject) then begin
-      jObj := TJSONObject(jData);
-      for i:=0 to (jObj.Count-1) do begin
-          s := jObj.Names[i];
-          jData2 := jObj.FindPath(s + '.users');
-          if (Assigned(jData2)) then
-          if (jData2.JSONType = jtObject) then begin
-            if (jData2.JSONType = jtObject) then begin
-              ListBox_groupsnusers.Items.Add(s);
-              ListBox_groups.Items.Add(s);
-              Inc(i3);
-              jObj2 := TJSONObject(jData2);
-              for i2:=0 to (jObj2.Count-1) do begin
-                  ListBox_groupsnusers.Items.Add('  ->' + jObj2.Names[i2]);
-                  Inc(i4);
-              end;
-            end;
-          end;
-      end;
+    if ((not Assigned(jData)) or (not (jData.JSONType = jtObject))) then begin
+      jData := TJSONObject.Create();
+      FJSON.Add('groups', jData);
+    end;
+    jObj := TJSONObject(jData);
+    for i:=0 to (jObj.Count-1) do begin
+        s := jObj.Names[i];
+        jData2 := jObj.FindPath(s + '.users');
+        if ((not Assigned(jData2)) or (not (jData2.JSONType = jtObject))) then begin
+           jData2 := TJSONObject.Create;
+           TJSONObject(jData2).Add('users', TJSONObject.Create);
+           jObj.Add(s, jData2);
+        end;
+        ListBox_groupsnusers.Items.Add(s);
+        ListBox_groups.Items.Add(s);
+        Inc(i3);
+        jObj2 := TJSONObject(jData2);
+        for i2:=0 to (jObj2.Count-1) do begin
+            ListBox_groupsnusers.Items.Add('  ->' + jObj2.Names[i2]);
+            Inc(i4);
+        end;
     end;
     Label_groupCount.Caption := IntToStr(i3) + ' group(s)';
     Label_userCount.Caption := IntToStr(i4) + ' user(s)';

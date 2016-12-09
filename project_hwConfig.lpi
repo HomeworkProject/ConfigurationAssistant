@@ -27,7 +27,7 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="6">
+    <Units Count="7">
       <Unit0>
         <Filename Value="project_hwConfig.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -58,6 +58,11 @@
         <Filename Value="umain_groupedit.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit5>
+      <Unit6>
+        <Filename Value="umain_tools.inc"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Unit1"/>
+      </Unit6>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
