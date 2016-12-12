@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ComCtrls,
-  StdCtrls, ExtCtrls, Grids
+  StdCtrls, ExtCtrls, Grids, Spin
   , uConfSearch
   , fpjson, jsonparser, jsonscanner
   ;
@@ -16,34 +16,56 @@ type
   { TfmMain }
 
   TfmMain = class(TForm)
-    Button_delUser: TButton;
-    Button_crUser: TButton;
+    Button_startGen: TButton;
+    Button_Generate: TButton;
+    Button_apply: TButton;
     Button_crGroup: TButton;
+    Button_crUser: TButton;
     Button_delGroup: TButton;
+    Button_delUser: TButton;
     Button_saveConfig: TButton;
     Button_back: TButton;
     Button_exit: TButton;
     Button_openConfig: TButton;
     Button_browseConfigPath: TButton;
+    CheckBox_genOverwrite: TCheckBox;
     CheckBox_autoApplyUpdate: TCheckBox;
     CheckBox_cleanuphwDB: TCheckBox;
     CheckBox_autoCheckUpdate: TCheckBox;
     CheckBox_ftTcp: TCheckBox;
     CheckBox_plainTcp: TCheckBox;
     CheckBox_secTcp: TCheckBox;
+    CheckBox_setAdmin: TCheckBox;
+    ComboBox_toSubClass: TComboBox;
+    ComboBox_fromSubClass: TComboBox;
     ComboBox_configPath: TComboBox;
-    Edit_GUname: TEdit;
+    Edit_authData: TLabeledEdit;
+    Edit_authMethod: TLabeledEdit;
     Edit_configPath: TEdit;
+    Edit_GUname: TLabeledEdit;
+    Edit_mask: TLabeledEdit;
+    Edit_pass: TLabeledEdit;
+    GroupBox_genGroups: TGroupBox;
+    GroupBox_action: TGroupBox;
+    GroupBox_userInfo: TGroupBox;
     GroupBox_infoBalloon: TGroupBox;
     GroupBox_groups: TGroupBox;
     GroupBox_cleanup: TGroupBox;
     GroupBox_appInfo: TGroupBox;
     GroupBox_update: TGroupBox;
     iLabel_select: TLabel;
+    Label_iUList: TLabel;
+    Label_iFromClass: TLabel;
+    LabeledEdit_passMask: TLabeledEdit;
+    Label_iFromSubClass: TLabel;
+    Label_iToSubClass: TLabel;
+    Label_iToClass: TLabel;
+    Label_maskEx: TLabel;
     Label_iUsers: TLabel;
     Label_iGroups: TLabel;
     Label_groupCount: TLabel;
     Label_iUsersInGroups: TLabel;
+    Label_maskPassEx: TLabel;
     Label_userCount: TLabel;
     Label_updateInterval: TLabel;
     Label_portFT: TLabel;
@@ -54,30 +76,45 @@ type
     ListBox_users: TListBox;
     ListBox_groups: TListBox;
     ListBox_groupsnusers: TListBox;
+    Memo_users: TMemo;
+    Memo_autoGenLog: TMemo;
     Memo_info: TMemo;
+    OpenDialog_confOpen: TOpenDialog;
     PageControl_main: TPageControl;
     Panel_tcp: TGroupBox;
     ProgressBar_searchConfigs: TProgressBar;
     RadioButton_createNew: TRadioButton;
     RadioButton_open: TRadioButton;
     RadioButton_detect: TRadioButton;
+    SpinEdit_fromClass: TSpinEdit;
+    SpinEdit_toClass: TSpinEdit;
     StaticText_genericInfo: TStaticText;
+    TabSheet_networkConf: TTabSheet;
+    TabSheet_genGroupsUsers: TTabSheet;
     TabSheet_editGroup: TTabSheet;
     TabSheet_config_generic: TTabSheet;
     TabSheet_selectFile: TTabSheet;
     Timer_info: TTimer;
+    procedure Button_applyClick(Sender: TObject);
     procedure Button_backClick(Sender: TObject);
+    procedure Button_browseConfigPathClick(Sender: TObject);
     procedure Button_crGroupClick(Sender: TObject);
     procedure Button_crUserClick(Sender: TObject);
     procedure Button_delGroupClick(Sender: TObject);
     procedure Button_delUserClick(Sender: TObject);
+    procedure Button_GenerateClick(Sender: TObject);
     procedure Button_saveConfigClick(Sender: TObject);
+    procedure Button_startGenClick(Sender: TObject);
+    procedure Edit_maskChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure GroupBox_groupsDblClick(Sender: TObject);
     procedure GroupBox_infoBalloonClick(Sender: TObject);
+    procedure LabeledEdit_passMaskChange(Sender: TObject);
+    procedure ListBox_groupsClick(Sender: TObject);
     procedure ListBox_groupsSelectionChange(Sender: TObject; User: boolean);
     procedure ListBox_usersSelectionChange(Sender: TObject; User: boolean);
     procedure PageControl_mainChange(Sender: TObject);
+    procedure Panel_tcpDblClick(Sender: TObject);
     procedure RadioButton_openChange(Sender: TObject);
     procedure RadioButton_detectChange(Sender: TObject);
     procedure Button_openConfigClick(Sender: TObject);
@@ -88,10 +125,15 @@ type
     FJSON: TJSONObject;
     FInfoList: TStringList;
     procedure AddInfo(s: String);
+    procedure GroupCreate(gName: String);
+    function GroupExists(gName: String): Boolean;
     function NextInfo: Boolean;
     procedure OnConfSearchDone(confSearch: TConfSearch);
     procedure loadConf(path: String);
+    procedure Passwd(user: TJSONObject; method, password: String);
     function reloadFromJSON: Boolean;
+    procedure UserCreate(gName, uName: String);
+    function UserExists(gName, uName: String): Boolean;
   public
   end;
 
@@ -161,6 +203,22 @@ begin
   PageControl_mainChange(Button_back);
 end;
 
+procedure TfmMain.Button_browseConfigPathClick(Sender: TObject);
+var
+  s: String;
+begin
+  with OpenDialog_confOpen do begin
+        DefaultExt := 'json';
+        InitialDir := GetCurrentDir;
+        Options := [ofEnableSizing, ofHideReadOnly, ofViewDetail, ofPathMustExist];
+        Title := 'Select configuration file';
+        if (Execute) then s := FileName
+        else s := '';
+  end;
+  s := StringReplace(s, GetCurrentDir, '.', [rfReplaceAll{$IFNDEF UNIX}, rfIgnoreCase{$ENDIF}]);
+  Edit_configPath.Text := s;
+end;
+
 procedure TfmMain.Button_saveConfigClick(Sender: TObject);
 var
   f: TextFile;
@@ -170,6 +228,7 @@ begin
   Write(f, FJSON.FormatJSON());
   Flush(f);
   CloseFile(f);
+  AddInfo('Configuration saved' + LineEnding + TimeToStr(now));
 end;
 
 procedure TfmMain.GroupBox_groupsDblClick(Sender: TObject);
@@ -220,9 +279,20 @@ begin
   Close;
 end;
 
+procedure TfmMain.PageControl_mainChange(Sender: TObject);
+begin
+  Button_back.Visible := False;
+  if (PageControl_main.ActivePage = TabSheet_editGroup) then
+     Button_back.Visible := True;
+  if (PageControl_main.ActivePage = TabSheet_networkConf) then
+     Button_back.Visible := True;
+end;
+
 {$INCLUDE 'umain_loadconf.inc'}
 {$INCLUDE 'umain_groupedit.inc'}
 {$INCLUDE 'umain_tools.inc'}
+{$INCLUDE 'umain_gengroups.inc'}
+{$INCLUDE 'umain_networkconf.inc'}
 
 end.
 

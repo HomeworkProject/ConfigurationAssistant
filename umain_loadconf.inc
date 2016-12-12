@@ -1,4 +1,4 @@
-{THIS FILE CONTAINS THE CODE THAT'S SUPPOSED TO LOAD THE CONFIG}
+{INCLUDES THE CODE THAT'S SUPPOSED TO LOAD THE CONFIG}
 
 procedure TfmMain.loadConf(path: String);
 var
@@ -80,6 +80,7 @@ begin
 
     //Plain TCP
     b:= False;
+    i := 0;
     jData := lTCP.FindPath('plain');
     if (not Assigned(jData) or (not (jData.JSONType = jtObject))) then begin
       jData := TJSONObject.Create;
@@ -96,7 +97,8 @@ begin
       Label_portPlain.Caption := '-';
 
     //Plain TCP
-    b:= False;
+    b := False;
+    i := 0;
     jData := lTCP.FindPath('ssl');
     if (not Assigned(jData) or (not (jData.JSONType = jtObject))) then begin
       jData := TJSONObject.Create;
@@ -113,7 +115,8 @@ begin
       Label_portSec.Caption := '-';
 
     //FT TCP
-    b:= False;
+    b := False;
+    i := 0;
     jData := lTCP.FindPath('ft');
     if (not Assigned(jData) or (not (jData.JSONType = jtObject))) then begin
       jData := TJSONObject.Create;

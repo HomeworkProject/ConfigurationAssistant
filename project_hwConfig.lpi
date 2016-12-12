@@ -61,7 +61,6 @@
       <Unit6>
         <Filename Value="umain_tools.inc"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="Unit1"/>
       </Unit6>
     </Units>
   </ProjectOptions>
