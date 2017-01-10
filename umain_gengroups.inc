@@ -11,6 +11,17 @@ begin
   Label_maskEx.Caption := 'Example: "' + s + '"';
 end;
 
+procedure TfmMain.FormCloseQuery(Sender: TObject; var CanClose: boolean);
+var
+  res: TModalResult;
+begin
+  if (FConfigModified = True) then begin
+    if (not (MessageDlg('Unsaved config!', 'Closing now will not save your config, continue?', mtConfirmation, mbYesNo, 0) = mrYes)) then begin
+      CanClose := False;
+    end;
+  end;
+end;
+
 procedure TfmMain.LabeledEdit_passMaskChange(Sender: TObject);
 var
   s: String;
@@ -83,3 +94,4 @@ begin
   uList.Free;
   GroupBox_genGroups.Enabled := True;
 end;
+

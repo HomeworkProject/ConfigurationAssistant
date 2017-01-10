@@ -93,6 +93,7 @@ begin
   lObj.Add(GName, lObj2);
   reloadFromJSON;
   ListBox_groupsSelectionChange(Button_crGroup, False);
+  FConfigModified := True;
 end;
 
 procedure TfmMain.Button_crGroupClick(Sender: TObject);
@@ -124,6 +125,7 @@ begin
 
   reloadFromJSON;
   ListBox_groupsSelectionChange(Button_crGroup, False);
+  FConfigModified := True;
 end;
 
 procedure TfmMain.Button_crUserClick(Sender: TObject);
@@ -139,6 +141,7 @@ begin
   end;
   UserCreate(gName, uName);
   AddInfo('User ' + GName + '/' + UName + ' created');
+  FConfigModified := True;
 end;
 
 procedure TfmMain.Button_delGroupClick(Sender: TObject);
@@ -151,6 +154,7 @@ begin
     reloadFromJSON;
     ListBox_groupsSelectionChange(Button_crGroup, False);
     AddInfo('Group ' + GName + ' deleted');
+    FConfigModified := True;
   end;
 end;
 
@@ -165,6 +169,7 @@ begin
     reloadFromJSON;
     ListBox_groupsSelectionChange(Button_crGroup, False);
     AddInfo('User ' + UName + '/' + GName + ' deleted');
+    FConfigModified := True;
   end;
 end;
 
@@ -188,6 +193,7 @@ begin
   end else begin
         user.Objects['onLoad'].Delete('passwd');
   end;
+  FConfigModified := True;
 end;
 
 procedure TfmMain.Button_applyClick(Sender: TObject);
@@ -209,4 +215,6 @@ begin
       if (Assigned(jData)) then
          user.Objects['onLoad'].Delete('perm');
   end;
+  FConfigModified := True;
 end;
+

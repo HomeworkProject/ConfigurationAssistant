@@ -16,6 +16,7 @@ type
   { TfmMain }
 
   TfmMain = class(TForm)
+    Button_applyNetworking: TButton;
     Button_startGen: TButton;
     Button_Generate: TButton;
     Button_apply: TButton;
@@ -28,6 +29,9 @@ type
     Button_exit: TButton;
     Button_openConfig: TButton;
     Button_browseConfigPath: TButton;
+    CheckBox_enablePlainTCP: TCheckBox;
+    CheckBox_enableFtTCP: TCheckBox;
+    CheckBox_enableSecTCP: TCheckBox;
     CheckBox_genOverwrite: TCheckBox;
     CheckBox_autoApplyUpdate: TCheckBox;
     CheckBox_cleanuphwDB: TCheckBox;
@@ -45,8 +49,11 @@ type
     Edit_GUname: TLabeledEdit;
     Edit_mask: TLabeledEdit;
     Edit_pass: TLabeledEdit;
+    GroupBox_plainTCP: TGroupBox;
     GroupBox_genGroups: TGroupBox;
     GroupBox_action: TGroupBox;
+    GroupBox_ftTCP: TGroupBox;
+    GroupBox_secTCP: TGroupBox;
     GroupBox_userInfo: TGroupBox;
     GroupBox_infoBalloon: TGroupBox;
     GroupBox_groups: TGroupBox;
@@ -54,6 +61,11 @@ type
     GroupBox_appInfo: TGroupBox;
     GroupBox_update: TGroupBox;
     iLabel_select: TLabel;
+    LabeledEdit_ftTCPAddr: TLabeledEdit;
+    LabeledEdit_sslCert: TLabeledEdit;
+    LabeledEdit_plainTCPAddr: TLabeledEdit;
+    LabeledEdit_secTCPAddr: TLabeledEdit;
+    LabeledEdit_sslCertKey: TLabeledEdit;
     Label_iUList: TLabel;
     Label_iFromClass: TLabel;
     LabeledEdit_passMask: TLabeledEdit;
@@ -86,7 +98,10 @@ type
     RadioButton_createNew: TRadioButton;
     RadioButton_open: TRadioButton;
     RadioButton_detect: TRadioButton;
+    SpinEdit_plainTCPPort: TSpinEdit;
     SpinEdit_fromClass: TSpinEdit;
+    SpinEdit_ftTCPPort: TSpinEdit;
+    SpinEdit_secTCPPort: TSpinEdit;
     SpinEdit_toClass: TSpinEdit;
     StaticText_genericInfo: TStaticText;
     TabSheet_networkConf: TTabSheet;
@@ -96,6 +111,7 @@ type
     TabSheet_selectFile: TTabSheet;
     Timer_info: TTimer;
     procedure Button_applyClick(Sender: TObject);
+    procedure Button_applyNetworkingClick(Sender: TObject);
     procedure Button_backClick(Sender: TObject);
     procedure Button_browseConfigPathClick(Sender: TObject);
     procedure Button_crGroupClick(Sender: TObject);
@@ -105,7 +121,9 @@ type
     procedure Button_GenerateClick(Sender: TObject);
     procedure Button_saveConfigClick(Sender: TObject);
     procedure Button_startGenClick(Sender: TObject);
+    procedure CheckBox_enableSecTCPChange(Sender: TObject);
     procedure Edit_maskChange(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
     procedure GroupBox_groupsDblClick(Sender: TObject);
     procedure GroupBox_infoBalloonClick(Sender: TObject);
@@ -123,6 +141,7 @@ type
   private
     FConfigPath: String;
     FJSON: TJSONObject;
+    FConfigModified: Boolean;
     FInfoList: TStringList;
     procedure AddInfo(s: String);
     procedure GroupCreate(gName: String);
@@ -229,6 +248,7 @@ begin
   Flush(f);
   CloseFile(f);
   AddInfo('Configuration saved' + LineEnding + TimeToStr(now));
+  FConfigModified := False;
 end;
 
 procedure TfmMain.GroupBox_groupsDblClick(Sender: TObject);

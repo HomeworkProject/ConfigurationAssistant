@@ -218,5 +218,6 @@ begin
      Result := False;
   end;
 end;
+  FConfigModified := False;
 end;
 
