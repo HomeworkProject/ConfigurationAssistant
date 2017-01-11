@@ -9,6 +9,7 @@ uses
   StdCtrls, ExtCtrls, Grids, Spin
   , uConfSearch
   , fpjson, jsonparser, jsonscanner
+  , uPassWdGen
   ;
 
 type
@@ -95,6 +96,7 @@ type
     PageControl_main: TPageControl;
     Panel_tcp: TGroupBox;
     ProgressBar_searchConfigs: TProgressBar;
+    RadioButton_randAlphaNUM: TRadioButton;
     RadioButton_createNew: TRadioButton;
     RadioButton_open: TRadioButton;
     RadioButton_detect: TRadioButton;

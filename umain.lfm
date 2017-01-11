@@ -1,11 +1,11 @@
 object fmMain: TfmMain
   Left = 366
-  Height = 400
+  Height = 439
   Top = 162
-  Width = 1200
+  Width = 1216
   Caption = 'fmMain'
-  ClientHeight = 400
-  ClientWidth = 1200
+  ClientHeight = 439
+  ClientWidth = 1216
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   LCLVersion = '5.9'
@@ -636,7 +636,7 @@ object fmMain: TfmMain
         object Label_maskEx: TLabel
           Left = 232
           Height = 15
-          Top = 128
+          Top = 72
           Width = 72
           Caption = 'Label_maskEx'
           ParentColor = False
@@ -665,7 +665,7 @@ object fmMain: TfmMain
         object CheckBox_genOverwrite: TCheckBox
           Left = 232
           Height = 19
-          Top = 64
+          Top = 8
           Width = 114
           Caption = 'Overwrite existing'
           TabOrder = 6
@@ -680,7 +680,7 @@ object fmMain: TfmMain
         object LabeledEdit_passMask: TLabeledEdit
           Left = 232
           Height = 23
-          Top = 168
+          Top = 104
           Width = 176
           EditLabel.AnchorSideLeft.Control = LabeledEdit_passMask
           EditLabel.AnchorSideRight.Control = LabeledEdit_passMask
@@ -688,7 +688,7 @@ object fmMain: TfmMain
           EditLabel.AnchorSideBottom.Control = LabeledEdit_passMask
           EditLabel.Left = 232
           EditLabel.Height = 15
-          EditLabel.Top = 150
+          EditLabel.Top = 86
           EditLabel.Width = 176
           EditLabel.Caption = 'Password-Mask (blank for none)'
           EditLabel.ParentColor = False
@@ -698,7 +698,7 @@ object fmMain: TfmMain
         object Edit_mask: TLabeledEdit
           Left = 232
           Height = 23
-          Top = 104
+          Top = 48
           Width = 176
           EditLabel.AnchorSideLeft.Control = Edit_mask
           EditLabel.AnchorSideRight.Control = Edit_mask
@@ -706,7 +706,7 @@ object fmMain: TfmMain
           EditLabel.AnchorSideBottom.Control = Edit_mask
           EditLabel.Left = 232
           EditLabel.Height = 15
-          EditLabel.Top = 86
+          EditLabel.Top = 30
           EditLabel.Width = 176
           EditLabel.Caption = 'Group name mask'
           EditLabel.ParentColor = False
@@ -717,7 +717,7 @@ object fmMain: TfmMain
         object Label_maskPassEx: TLabel
           Left = 232
           Height = 15
-          Top = 192
+          Top = 128
           Width = 95
           Caption = 'Label_maskPassEx'
           ParentColor = False
@@ -761,6 +761,16 @@ object fmMain: TfmMain
           Width = 159
           Caption = 'Comma seperated list of users'
           ParentColor = False
+        end
+        object RadioButton_randAlphaNUM: TRadioButton
+          Left = 232
+          Height = 19
+          Top = 144
+          Width = 140
+          Caption = 'Alphanumeric random'
+          Checked = True
+          TabOrder = 10
+          TabStop = True
         end
       end
     end

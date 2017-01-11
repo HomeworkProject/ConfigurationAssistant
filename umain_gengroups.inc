@@ -31,15 +31,17 @@ begin
   s := StringReplace(s, '%a%', 'b', [rfReplaceAll]);
   s := StringReplace(s, '%A%', 'B', [rfReplaceAll]);
   s := StringReplace(s, '%u%', 'user', [rfReplaceAll]);
+  s := StringReplace(s, '%r%', '_rnd_', [rfReplaceAll]);
   Label_maskPassEx.Caption := 'Example: "' + s + '"';
 end;
 
 procedure TfmMain.Button_startGenClick(Sender: TObject);
 var
-  I, I2, I3: Integer;
-  s, u, p: String;
+  I, I2, I3, index, leng, code: Integer;
+  s, u, p, r: String;
   uList: TStringList;
 begin
+  Randomize;
   Memo_autoGenLog.Clear;
   if ((SpinEdit_fromClass.Value > SpinEdit_toClass.Value) or (ComboBox_fromSubClass.ItemIndex > ComboBox_toSubClass.ItemIndex)) then begin
      ShowMessage('Cannot run backwards ¯\_(ツ)_/¯');
@@ -84,6 +86,28 @@ begin
                       p := StringReplace(p, '%a%', LowerCase(ComboBox_toSubClass.Items[I2]), [rfReplaceAll]);
                       p := StringReplace(p, '%A%', ComboBox_toSubClass.Items[I2], [rfReplaceAll]);
                       p := StringReplace(p, '%u%', u, [rfReplaceAll]);
+                      while (Pos('%r%', p) > 0) do begin
+                            try
+                               index := Pos('%r%', p)+3;
+                               //ShowMessage(IntToStr(Pos('%r%', p)) + ' ' + p + ' ' + p[index]);
+                               if (index > Length(p)) then
+                                  code := 1
+                               else
+                                  Val(p[index], leng, code);
+                               if (code <> 1) then begin
+                                  r := uPassWdGen.genPasswd(leng, [gpwdoAlphaUPPER, gpwdoAlphaLOWER, gpwdoNumeric]);
+                                  p := StringReplace(p, '%r%'+p[index], r, []);
+                               end else begin
+                                  r := uPassWdGen.genPasswd(1, [gpwdoAlphaUPPER, gpwdoAlphaLOWER, gpwdoNumeric]);
+                                  p := StringReplace(p, '%r%', r, []);
+                               end;
+                            except
+                              on E: Exception do begin
+                                    ShowMessage('An error occurred: ' + E.Message);
+                                    Exit;
+                              end;
+                            end;
+                      end;
                     end;
                     Passwd(TJSONObject(FJSON.FindPath('groups.' + s + '.users.' + u)), 'default', p);
                     I3 := Memo_autoGenLog.Lines.Count - 1;
