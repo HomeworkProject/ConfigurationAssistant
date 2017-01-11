@@ -44,6 +44,14 @@ begin
   jObj.Add('enable', CheckBox_enableSecTCP.Checked);
   jObj.Delete('port');
   jObj.Add('port', SpinEdit_secTCPPort.Value);
+  if (LabeledEdit_sslCert.Text <> '') then begin
+     jObj.Delete('keystore');
+     jObj.Add('keystore', LabeledEdit_sslCert.Text);
+  end;
+  if (LabeledEdit_sslCertKey.Text <> '') then begin
+     jObj.Delete('password');
+     jObj.Add('password', LabeledEdit_sslCertKey.Text);
+  end;  
 
   FConfigModified := True;
 end;
