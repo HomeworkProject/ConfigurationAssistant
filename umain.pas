@@ -214,6 +214,11 @@ begin
   PageControl_main.ActivePage := TabSheet_selectFile;
   RadioButton_openChange(Self);
   RadioButton_detectChange(Self);
+
+  LabeledEdit_sslCert.Caption := 'Keystore path (empty for unchanged)';
+  LabeledEdit_sslCert.Text := '';
+  LabeledEdit_sslCertKey.Caption := 'Keystore password (empty for unchanged)';
+  LabeledEdit_sslCertKey.Caption := '';
 end;
 
 procedure TfmMain.Button_backClick(Sender: TObject);
