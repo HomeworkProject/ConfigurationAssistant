@@ -96,7 +96,7 @@ begin
     else
       Label_portPlain.Caption := '-';
 
-    //Plain TCP
+    //Secure TCP
     b := False;
     i := 0;
     jData := lTCP.FindPath('ssl');
@@ -108,6 +108,8 @@ begin
        b := True;
        i := jObj.Get('port', 0);
     end;
+    LabeledEdit_sslCert.Text := jObj.Get('keystore', 'keystore.ks');
+    LabeledEdit_sslCertKey.Text := jObj.Get('password', 'myKeystorePass'); 
     CheckBox_secTcp.Checked := b;
     if (i<>0) then
        Label_portSec.Caption := IntToStr(i)
