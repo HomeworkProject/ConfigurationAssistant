@@ -306,6 +306,8 @@ begin
      Button_back.Visible := True;
   if (PageControl_main.ActivePage = TabSheet_networkConf) then
      Button_back.Visible := True;
+  if (PageControl_main.ActivePage = TabSheet_genGroupsUsers) then
+     Button_back.Visible := True; 
 end;
 
 {$INCLUDE 'umain_loadconf.inc'}
