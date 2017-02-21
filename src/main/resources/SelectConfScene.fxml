@@ -1,0 +1,48 @@
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<VBox fx:controller="de.homeworkproject.configassist.main.SelectConfSceneController"
+      xmlns:fx="http://javafx.com/fxml">
+    <MenuBar fx:id="SelectConfMenuBar">
+        <Menu text="Load" fx:id="SelectConfLoadMenu">
+            <MenuItem text="Click to search..." onAction="#onLoadPressed">
+                <accelerator>
+                    <KeyCodeCombination control="DOWN" alt="DOWN" shift="UP" meta="UP" shortcut="UP" code="L"/>
+                </accelerator>
+            </MenuItem>
+            <MenuItem text="Create new config" onAction="#onSelectConfFile" fx:id="NewConfigTrigger">
+                <accelerator>
+                    <KeyCodeCombination control="DOWN" alt="DOWN" shift="UP" meta="UP" shortcut="UP" code="N"/>
+                </accelerator>
+            </MenuItem>
+            <Menu fx:id="DetectedConfs" text="Detected configs" visible="false">
+            </Menu>
+            <MenuItem text="Exit" onAction="#onClose">
+                <accelerator>
+                    <KeyCodeCombination control="DOWN" alt="UP" shift="UP" meta="UP" shortcut="UP" code="W"/>
+                </accelerator>
+            </MenuItem>
+        </Menu>
+    </MenuBar>
+    <AnchorPane>
+        <GridPane fx:id="SelectConfBody"
+                  AnchorPane.topAnchor="5"
+                  AnchorPane.bottomAnchor="5"
+                  AnchorPane.rightAnchor="10"
+                  AnchorPane.leftAnchor="10">
+            <ProgressBar fx:id="SelectConfProgress" visible="false"/>
+            <Text
+                    GridPane.columnIndex="0"
+                    GridPane.rowIndex="2"
+                    GridPane.rowSpan="4"
+                    GridPane.columnSpan="4"
+                text="Homework_Server configuration assistant&#10;Target server version: 0.0.0.10 - E.A. RC10&#10;© 2017 Magnus Leßmann - The HomeworkProject">
+            </Text>
+        </GridPane>
+    </AnchorPane>
+</VBox>

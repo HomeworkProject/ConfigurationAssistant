@@ -1,0 +1,90 @@
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.control.Button?>
+<?import javafx.geometry.Insets?>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="de.homeworkproject.configassist.main.SetupNetController">
+    <MenuBar>
+        <Menu text="File">
+            <MenuItem text="Back" onAction="#onBack">
+                <accelerator>
+                    <KeyCodeCombination control="DOWN" alt="DOWN" shift="UP" meta="UP" shortcut="UP" code="B"/>
+                </accelerator>
+            </MenuItem>
+        </Menu>
+    </MenuBar>
+    <GridPane>
+        <padding>
+            <Insets top="2" bottom="0" left="10" right="10"/>
+        </padding>
+        <columnConstraints>
+            <ColumnConstraints prefWidth="70"/>
+            <ColumnConstraints prefWidth="75"/>
+            <ColumnConstraints prefWidth="75"/>
+            <ColumnConstraints prefWidth="75"/>
+            <ColumnConstraints prefWidth="75"/>
+            <ColumnConstraints prefWidth="75"/>
+            <ColumnConstraints prefWidth="75"/>
+            <ColumnConstraints prefWidth="75"/>
+            <ColumnConstraints prefWidth="75"/>
+            <ColumnConstraints prefWidth="75"/>
+            <ColumnConstraints prefWidth="75"/>
+            <ColumnConstraints prefWidth="75"/>
+            <ColumnConstraints prefWidth="70"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints prefHeight="50"/>
+            <RowConstraints prefHeight="50"/>
+            <RowConstraints prefHeight="50"/>
+            <RowConstraints prefHeight="50"/>
+            <RowConstraints prefHeight="50"/>
+            <RowConstraints prefHeight="50"/>
+            <RowConstraints prefHeight="50"/>
+            <RowConstraints prefHeight="50"/>
+            <RowConstraints prefHeight="50"/>
+            <RowConstraints prefHeight="50"/>
+        </rowConstraints>
+        <VBox styleClass="groupBox" GridPane.columnSpan="4" GridPane.rowSpan="3">
+            <Label text="Plaintext-TCP" underline="true"/>
+            <CheckBox fx:id="enablePlainTCP" text="Enable"/>
+            <Label text="Port:"/>
+            <TextField fx:id="portPlainTCP"/>
+        </VBox>
+        <VBox styleClass="groupBox" GridPane.columnSpan="6" GridPane.rowSpan="3" GridPane.columnIndex="4">
+            <Label text="Secure-TCP" underline="true"/>
+            <CheckBox fx:id="enableSSLTCP" text="Enable"/>
+            <HBox spacing="5">
+                <VBox>
+                    <Label text="Port:"/>
+                    <TextField fx:id="portSSLTCP"/>
+                </VBox>
+                <VBox>
+                    <Label text="Keystore pass:"/>
+                    <TextField fx:id="keystorePass"/>
+                </VBox>
+            </HBox>
+            <Label text="Keystore path:"/>
+            <HBox GridPane.columnSpan="5">
+                <TextField fx:id="keystorePath" HBox.hgrow="ALWAYS"/>
+                <Button text="..." onAction="#chooseKeystore"/>
+            </HBox>
+        </VBox>
+        <VBox styleClass="groupBox" GridPane.columnSpan="4" GridPane.rowSpan="3" GridPane.columnIndex="10">
+            <Label text="FileTransfer-TCP" underline="true"/>
+            <CheckBox fx:id="enableFTTCP" text="Enable"/>
+            <Label text="Port:"/>
+            <TextField fx:id="portFTTCP"/>
+        </VBox>
+        <Button text="Apply" GridPane.columnSpan="12" GridPane.rowSpan="1" GridPane.rowIndex="3" onAction="#save"/>
+    </GridPane>
+</VBox>

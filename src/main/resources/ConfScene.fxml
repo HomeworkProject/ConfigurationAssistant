@@ -1,0 +1,78 @@
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.input.KeyCodeCombination?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import com.sun.javafx.scene.control.skin.IntegerField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.input.KeyCharacterCombination?>
+<?import javafx.geometry.Insets?>
+<VBox fx:controller="de.homeworkproject.configassist.main.ConfSceneController" fx:id="ConfVBox"
+      xmlns:fx="http://javafx.com/fxml">
+    <MenuBar>
+        <Menu text="File" fx:id="MenuFile">
+            <MenuItem text="Save" onAction="#onSave">
+                <accelerator>
+                    <KeyCodeCombination control="DOWN" alt="UP" shift="UP" meta="UP" shortcut="UP" code="S"/>
+                </accelerator>
+            </MenuItem>
+            <MenuItem text="Close config" onAction="#onClose">
+                <accelerator>
+                    <KeyCodeCombination control="DOWN" alt="UP" shift="UP" meta="UP" shortcut="UP" code="W"/>
+                </accelerator>
+            </MenuItem>
+        </Menu>
+        <Menu text="Actions">
+            <MenuItem text="Setup Networking" onAction="#onSetupNet"/>
+            <MenuItem text="Setup groups" onAction="#onSetupGroups"/>
+        </Menu>
+    </MenuBar>
+    <GridPane gridLinesVisible="false" styleClass="body">
+        <padding>
+            <Insets top="2" bottom="0" right="10" left="10"/>
+        </padding>
+        <columnConstraints>
+            <ColumnConstraints maxWidth="50" minWidth="50"/>
+            <ColumnConstraints maxWidth="50" minWidth="50"/>
+            <ColumnConstraints maxWidth="50" minWidth="50"/>
+            <ColumnConstraints maxWidth="50" minWidth="50"/>
+            <ColumnConstraints maxWidth="50" minWidth="50"/>
+            <ColumnConstraints maxWidth="50" minWidth="50"/>
+            <ColumnConstraints maxWidth="50" minWidth="50"/>
+            <ColumnConstraints maxWidth="50" minWidth="50"/>
+        </columnConstraints>
+        <HBox spacing="5" styleClass="rowBody">
+            <VBox styleClass="groupBox" GridPane.columnSpan="3" minWidth="150">
+                <Label text="Networking" underline="true"/>
+                <Label text="TCP-Plaintext port:" fx:id="LabelTCPPlainPort" minWidth="140" maxWidth="140" styleClass="groupBoxMember"/>
+                <Label text="TCP-SSL port: 0" fx:id="LabelTCPSSLPort" minWidth="140" maxWidth="140" styleClass="groupBoxMember"/>
+                <Label text="TCP-FT port:" fx:id="LabelTCPFTPort" minWidth="140" maxWidth="140" styleClass="groupBoxMember"/>
+                <Button text="Network setup" onAction="#onSetupNet"/>
+            </VBox>
+            <VBox styleClass="groupBox" GridPane.columnSpan="3" minWidth="150">
+                <Label text="HWDB cleanup" underline="true"/>
+                <Label text="Max age in days:"/>
+                <TextField text="60" fx:id="HWCleanupInterval"/>
+            </VBox>
+            <VBox styleClass="groupBox" GridPane.columnSpan="3" minWidth="150">
+                <Label text="Automatic updates" underline="true"/>
+                <CheckBox text="Check automatically" fx:id="CheckBoxAutoUpdate"/>
+                <Label text="Interval in hours"/>
+                <TextField fx:id="TextFieldUpdateCheckInterval"/>
+                <CheckBox text="Install automatically" fx:id="CheckBoxAutoUpgrade"/>
+            </VBox>
+            <VBox styleClass="groupBox" GridPane.columnSpan="3" minWidth="150">
+                <Label text="Groups and users" underline="true"/>
+                <Button text="Group setup" onAction="#onSetupGroups"/>
+            </VBox>
+        </HBox>
+    </GridPane>
+</VBox>

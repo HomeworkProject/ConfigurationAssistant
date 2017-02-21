@@ -1,0 +1,15 @@
+.groupBox {
+    -fx-border-style: solid;
+    -fx-padding: 5px;
+}
+
+.groupBoxNoPadding {
+    -fx-border-style: solid;
+}
+
+.groupBoxNoBorder {
+    -fx-padding: 5px;
+}
+
+.groupBoxMember {
+}

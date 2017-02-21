@@ -1,0 +1,266 @@
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Label?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import java.util.Collection?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tooltip?>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="de.homeworkproject.configassist.main.SetupGroupsController">
+    <MenuBar>
+        <Menu text="File">
+            <MenuItem text="Back" onAction="#onBack">
+                <accelerator>
+                    <KeyCodeCombination control="DOWN" alt="DOWN" shift="UP" meta="UP" shortcut="UP" code="B"/>
+                </accelerator>
+            </MenuItem>
+        </Menu>
+    </MenuBar>
+    <HBox>
+        <GridPane gridLinesVisible="false">
+            <padding>
+                <Insets top="2" bottom="0" left="10" right="10"/>
+            </padding>
+            <columnConstraints>
+                <ColumnConstraints minWidth="130" maxWidth="130"/>
+                <ColumnConstraints minWidth="130" maxWidth="130"/>
+                <ColumnConstraints minWidth="130" maxWidth="130"/>
+                <ColumnConstraints minWidth="130" maxWidth="130"/>
+                <ColumnConstraints minWidth="130" maxWidth="130"/>
+                <ColumnConstraints minWidth="130" maxWidth="130"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="570" maxHeight="570"/>
+            </rowConstraints>
+            <VBox GridPane.columnSpan="1" GridPane.rowSpan="1" spacing="2">
+                <Label text="Groups" underline="true"/>
+                <ListView fx:id="groupList" VBox.vgrow="ALWAYS"/>
+            </VBox>
+            <GridPane GridPane.rowIndex="0" GridPane.columnIndex="1" gridLinesVisible="false">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="130" maxWidth="130"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints minHeight="285" maxHeight="285"/>
+                    <RowConstraints minHeight="285" maxHeight="285"/>
+                </rowConstraints>
+                <VBox GridPane.columnSpan="1" GridPane.rowSpan="1" spacing="2">
+                    <Label text="Users" underline="true"/>
+                    <ListView fx:id="userList" VBox.vgrow="ALWAYS"/>
+                </VBox>
+                <VBox spacing="5" GridPane.columnSpan="1" GridPane.rowSpan="1" GridPane.rowIndex="1">
+                    <padding>
+                        <Insets top="10" bottom="10" right="10" left="10"/>
+                    </padding>
+                    <Label text="Info" underline="true"/>
+                    <Label text="X users in Y groups" fx:id="groupUserCount"/>
+                    <Label text="X moderators" visible="false"/>
+                    <Label text="X administrators" visible="false"/>
+                </VBox>
+            </GridPane>
+            <GridPane GridPane.columnIndex="2" GridPane.columnSpan="4" gridLinesVisible="false">
+                <columnConstraints>
+                    <ColumnConstraints prefWidth="65"/>
+                    <ColumnConstraints prefWidth="65"/>
+                    <ColumnConstraints prefWidth="65"/>
+                    <ColumnConstraints prefWidth="65"/>
+                    <ColumnConstraints prefWidth="65"/>
+                    <ColumnConstraints prefWidth="65"/>
+                    <ColumnConstraints prefWidth="65"/>
+                    <ColumnConstraints prefWidth="65"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints minHeight="285" maxHeight="285"/>
+                    <RowConstraints minHeight="285" maxHeight="285"/>
+                    <RowConstraints minHeight="2" maxHeight="2"/>
+                </rowConstraints>
+                <VBox styleClass="groupBox" GridPane.rowIndex="0" GridPane.columnSpan="3" spacing="2">
+                    <Label text="Actions" underline="true"/>
+                    <HBox spacing="2" prefWidth="195">
+                        <Button text="Add group:" prefWidth="120" onAction="#onCreateGroup"/>
+                        <TextField fx:id="addGroupField" HBox.hgrow="ALWAYS" />
+                    </HBox>
+                    <HBox spacing="2" prefWidth="195">
+                        <Button text="Add user:" prefWidth="120"  onAction="#onCreateUser"/>
+                        <TextField fx:id="addUserField" HBox.hgrow="ALWAYS"/>
+                    </HBox>
+                    <HBox spacing="2" prefWidth="195">
+                        <Button text="Del group:" prefWidth="120" onAction="#onRemoveGroup"/>
+                        <TextField fx:id="selectedGroup" text="[GName-TBD]" editable="false" mouseTransparent="true" focusTraversable="false"/>
+                    </HBox>
+                    <HBox spacing="2" prefWidth="195">
+                        <Button text="Del user:" prefWidth="120" onAction="#onRemoveUser"/>
+                        <TextField fx:id="selectedUser" text="[UName-TBD]" editable="false" mouseTransparent="true" focusTraversable="false"/>
+                    </HBox>
+                    <HBox spacing="2" prefWidth="195">
+                        <Button text="Delete groups" prefWidth="195" onAction="#onDelGroups"/>
+                    </HBox>
+                    <!--<HBox spacing="2" minWidth="260" maxWidth="260">
+                        <Button text="Automatic group/user setup" underline="true" minWidth="260" maxWidth="260" onAction="#onGenerateGroups"/>
+                    </HBox>-->
+                </VBox>
+                <HBox styleClass="groupBox" GridPane.columnSpan="5" GridPane.rowSpan="1" GridPane.rowIndex="0" GridPane.columnIndex="3" spacing="2">
+                    <VBox spacing="2">
+                        <Label text="Automatically generate" underline="true"/>
+                        <HBox spacing="4">
+                            <Label text="From"/>
+                            <TextField fx:id="fromClass" text="5" prefWidth="40"/>
+                            <Label text="To"/>
+                            <TextField fx:id="toClass" text="13" prefWidth="40"/>
+                        </HBox>
+                        <HBox spacing="0">
+                            <Label text="From"/>
+                            <ComboBox fx:id="fromSubClass" value="select" maxWidth="25">
+                                <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                        <String fx:value="a"/>
+                                        <String fx:value="b"/>
+                                        <String fx:value="c"/>
+                                        <String fx:value="d"/>
+                                        <String fx:value="e"/>
+                                        <String fx:value="f"/>
+                                        <String fx:value="g"/>
+                                        <String fx:value="h"/>
+                                        <String fx:value="i"/>
+                                        <String fx:value="j"/>
+                                        <String fx:value="k"/>
+                                        <String fx:value="l"/>
+                                        <String fx:value="m"/>
+                                        <String fx:value="n"/>
+                                        <String fx:value="o"/>
+                                        <String fx:value="p"/>
+                                        <String fx:value="q"/>
+                                        <String fx:value="r"/>
+                                        <String fx:value="s"/>
+                                        <String fx:value="t"/>
+                                        <String fx:value="u"/>
+                                        <String fx:value="v"/>
+                                        <String fx:value="w"/>
+                                        <String fx:value="x"/>
+                                        <String fx:value="y"/>
+                                        <String fx:value="z"/>
+                                    </FXCollections>
+                                </items>
+                            </ComboBox>
+                            <Label text="To"/>
+                                <ComboBox fx:id="toSubClass" value="select" maxWidth="25">
+                                 <items>
+                                     <FXCollections fx:factory="observableArrayList">
+                                        <String fx:value="a"/>
+                                        <String fx:value="b"/>
+                                        <String fx:value="c"/>
+                                        <String fx:value="d"/>
+                                        <String fx:value="e"/>
+                                        <String fx:value="f"/>
+                                        <String fx:value="g"/>
+                                        <String fx:value="h"/>
+                                        <String fx:value="i"/>
+                                        <String fx:value="j"/>
+                                        <String fx:value="k"/>
+                                        <String fx:value="l"/>
+                                        <String fx:value="m"/>
+                                        <String fx:value="n"/>
+                                        <String fx:value="o"/>
+                                        <String fx:value="p"/>
+                                        <String fx:value="q"/>
+                                        <String fx:value="r"/>
+                                        <String fx:value="s"/>
+                                        <String fx:value="t"/>
+                                        <String fx:value="u"/>
+                                        <String fx:value="v"/>
+                                        <String fx:value="w"/>
+                                        <String fx:value="x"/>
+                                        <String fx:value="y"/>
+                                        <String fx:value="z"/>
+                                    </FXCollections>
+                                </items>
+                            </ComboBox>
+                        </HBox>
+                        <Label text="Group name mask:"/>
+                        <HBox spacing="4">
+                            <TextField fx:id="groupNameMask" maxWidth="180">
+                                <tooltip>
+                                    <Tooltip text="[%a%] Current letter&#10;[%i%] Current number"/>
+                                </tooltip>
+                            </TextField>
+                        </HBox>
+                        <Label text="Default password mask:"/>
+                        <HBox spacing="4">
+                            <TextField fx:id="passMask" maxWidth="180">
+                                <tooltip>
+                                    <Tooltip text="[%a%] Current letter&#10;[%i%] Current number&#10;[%g%] Current group name&#10;[%u%] Current username&#10;[%r%X] Random string of length X"/>
+                                </tooltip>
+                            </TextField>
+                        </HBox>
+                        <Button text="START" prefWidth="180" onAction="#onStartGenerate"/>
+                    </VBox>
+                    <VBox spacing="2" prefWidth="200">
+                        <Label text="Users to create:"/>
+                        <ScrollPane prefHeight="230" fitToHeight="true">
+                            <VBox fx:id="userTemplates">
+                                <!-- Generate users here-->
+                            </VBox>
+                        </ScrollPane>
+                        <HBox>
+                            <Button text="+" minWidth="25" onAction="#onAddUserTemplate"/>
+                            <Button text="-" minWidth="25" onAction="#onRemoveUserTemplate"/>
+                        </HBox>
+                    </VBox>
+                </HBox>
+                <GridPane styleClass="groupBoxNoPadding" GridPane.columnSpan="8" GridPane.rowSpan="1" GridPane.rowIndex="1" fx:id="userSetupPane" visible="false">
+                    <columnConstraints>
+                        <ColumnConstraints prefWidth="65"/>
+                        <ColumnConstraints prefWidth="65"/>
+                        <ColumnConstraints prefWidth="65"/>
+                        <ColumnConstraints prefWidth="65"/>
+                        <ColumnConstraints prefWidth="65"/>
+                        <ColumnConstraints prefWidth="65"/>
+                        <ColumnConstraints prefWidth="65"/>
+                        <ColumnConstraints prefWidth="65"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints/>
+                    </rowConstraints>
+                    <VBox spacing="2" GridPane.columnSpan="3" GridPane.columnIndex="0" styleClass="groupBoxNoBorder">
+                        <Label fx:id="userSetupCaption" underline="true"/>
+                        <Label fx:id="userSetupGroup"/>
+                        <Label text="Auth method ID:" underline="true"/>
+                        <TextField fx:id="userSetupAuthMethod"/>
+                        <Label text="Password (maybe obfuscated)" underline="true"/>
+                        <TextField fx:id="userSetupAuthPass"/>
+                        <Button text="APPLY" prefWidth="200" onAction="#onApplyUserChanges"/>
+                    </VBox>
+                    <VBox spacing="2" GridPane.columnSpan="5" GridPane.columnIndex="3" styleClass="groupBoxNoBorder">
+                        <Label text="Permissions:"/>
+                        <ScrollPane prefHeight="230" fitToHeight="true">
+                            <VBox fx:id="userSetupPermList" spacing="1" style="-fx-padding: 2px">
+                                <!-- Generate permissions here-->
+                            </VBox>
+                        </ScrollPane>
+                        <HBox spacing="2">
+                            <Button text="+" minWidth="25" onAction="#onAddPermHBox"/>
+                            <Button text="-" minWidth="25" onAction="#onDelPermHBox"/>
+                            <Button text="Add admin defaults" disable="true"/>
+                            <Button text="Add user defaults" onAction="#onGenDefaultUserPerms"/>
+                        </HBox>
+                    </VBox>
+                </GridPane>
+            </GridPane>
+        </GridPane>
+    </HBox>
+</VBox>
