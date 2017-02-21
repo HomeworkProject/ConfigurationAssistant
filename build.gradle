@@ -1,0 +1,34 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'maven'
+
+mainClassName = "de.homeworkproject.configassist.main.Main"
+
+project.ext {
+    javaFX = "${System.properties['java.home']}/lib/jfxrt.jar"
+}
+
+configurations {
+    //Do not add JavaFX to the jar classpath
+    fxCompile
+}
+
+repositories {
+    mavenLocal()
+    maven {
+        url uri('http://maven.fearnixx.de/maven2')
+    }
+    mavenCentral()
+}
+
+dependencies {
+    fxCompile files(project.ext.javaFX)
+    compile 'de.mlessmann:javacommon:2.2.1:src'
+    compile 'de.mlessmann:configurate:0.0.5:src'
+}
+
+compileJava {
+    //Add JavaFX to compile classpath
+    sourceSets.main.compileClasspath += configurations.fxCompile
+}
+
